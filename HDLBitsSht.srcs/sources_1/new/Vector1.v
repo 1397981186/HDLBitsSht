@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 2022/09/12 20:15:24
+// Create Date: 2022/09/12 20:59:10
 // Design Name: 
-// Module Name: 7458Chip
+// Module Name: Vector1
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,13 +20,11 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Chip7458( 
-    input p1a, p1b, p1c, p1d, p1e, p1f,
-    output p1y,
-    input p2a, p2b, p2c, p2d,
-    output p2y );
-
-	assign p2y=(p2a&p2b)|(p2c&p2d);
-	assign p1y=(p1a&p1b&p1c)|(p1d&p1e&p1f);
-
+module Vector1(
+    input wire [15:0] in,
+    output wire [7:0] out_hi,
+    output wire [7:0] out_lo );
+	
+	assign out_lo=in[7:0];
+	assign out_hi=in[15:8];
 endmodule

@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 2022/09/12 20:15:24
+// Create Date: 2022/09/12 21:49:19
 // Design Name: 
-// Module Name: 7458Chip
+// Module Name: Gates4
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,13 +20,14 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Chip7458( 
-    input p1a, p1b, p1c, p1d, p1e, p1f,
-    output p1y,
-    input p2a, p2b, p2c, p2d,
-    output p2y );
-
-	assign p2y=(p2a&p2b)|(p2c&p2d);
-	assign p1y=(p1a&p1b&p1c)|(p1d&p1e&p1f);
-
+module Gates4(
+    input [3:0] in,
+    output out_and,
+    output out_or,
+    output out_xor
+    );
+	
+	assign out_and = & in;
+	assign out_or  = | in;
+	assign out_xor = ^ in;
 endmodule

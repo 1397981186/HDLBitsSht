@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 2022/09/12 20:15:24
+// Create Date: 2022/09/12 21:26:07
 // Design Name: 
-// Module Name: 7458Chip
+// Module Name: Vectorgates
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,13 +20,15 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Chip7458( 
-    input p1a, p1b, p1c, p1d, p1e, p1f,
-    output p1y,
-    input p2a, p2b, p2c, p2d,
-    output p2y );
-
-	assign p2y=(p2a&p2b)|(p2c&p2d);
-	assign p1y=(p1a&p1b&p1c)|(p1d&p1e&p1f);
-
+module Vectorgates(
+    input [2:0] a,
+    input [2:0] b,
+    output [2:0] out_or_bitwise,
+    output out_or_logical,
+    output [5:0] out_not
+    );
+	
+	assign	out_or_bitwise=a|b;
+	assign	out_or_logical=a||b;
+	assign	out_not=~{b,a};
 endmodule
