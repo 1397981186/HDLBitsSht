@@ -5,8 +5,6 @@
 set_param simulator.modelsimInstallPath D:/modeltech64_10.4/win64
 set_msg_config -id {HDL 9-1061} -limit 100000
 set_msg_config -id {HDL 9-1654} -limit 100000
-set_msg_config -id {Synth 8-256} -limit 10000
-set_msg_config -id {Synth 8-638} -limit 10000
 create_project -in_memory -part xc7k70tfbv676-1
 
 set_param project.compositeFile.enableAutoGeneration 0
@@ -16,7 +14,7 @@ set_property parent.project_path E:/FPGACode/HDLBitsSht/HDLBitsSht.xpr [current_
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language Verilog [current_project]
 set_property vhdl_version vhdl_2k [current_fileset]
-read_verilog -library xil_defaultlib E:/FPGACode/HDLBitsSht/HDLBitsSht.srcs/sources_1/new/Wire_decl.v
-synth_design -top top_module -part xc7k70tfbv676-1
-write_checkpoint -noxdef top_module.dcp
-catch { report_utilization -file top_module_utilization_synth.rpt -pb top_module_utilization_synth.pb }
+read_verilog -library xil_defaultlib E:/FPGACode/HDLBitsSht/HDLBitsSht.srcs/sources_1/new/Vectorr.v
+synth_design -top Vectorr -part xc7k70tfbv676-1
+write_checkpoint -noxdef Vectorr.dcp
+catch { report_utilization -file Vectorr_utilization_synth.rpt -pb Vectorr_utilization_synth.pb }

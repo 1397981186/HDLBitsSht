@@ -24,7 +24,7 @@ else
 fi
 export LD_LIBRARY_PATH
 
-HD_PWD='E:/FPGACode/HDLBitsSht/HDLBitsSht.runs/synth_1'
+HD_PWD='E:/FPGACode/HDLBitsSht/HDLBitsSht.runs/impl_1'
 cd "$HD_PWD"
 
 HD_LOG=runme.log
@@ -40,4 +40,8 @@ EAStep()
      fi
 }
 
-EAStep vivado -log Vectorr.vds -m64 -mode batch -messageDb vivado.pb -notrace -source Vectorr.tcl
+# pre-commands:
+/bin/touch .init_design.begin.rst
+EAStep vivado -log Vectorr.vdi -applog -m64 -messageDb vivado.pb -mode batch -source Vectorr.tcl -notrace
+
+
