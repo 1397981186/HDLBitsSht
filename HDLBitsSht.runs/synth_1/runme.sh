@@ -40,4 +40,4 @@ EAStep()
      fi
 }
 
-EAStep vivado -log Vectorr.vds -m64 -mode batch -messageDb vivado.pb -notrace -source Vectorr.tcl
+EAStep vivado -log Chip7458.vds -m64 -mode batch -messageDb vivado.pb -notrace -source Chip7458.tcl
