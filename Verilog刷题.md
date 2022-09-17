@@ -476,20 +476,275 @@ endmodule
 
 #### [Adder-subtractor](https://hdlbits.01xz.net/wiki/module_addsub)
 
+![image-20220914223252952](Verilog刷题.assets/image-20220914223252952.png)
+
+- 一个数取反（包括符号位）再加1就是在求它的相反数，即 a - b = a + (-b) = a + (~b + 1)，要注意的是，这是补码运算，而不是原码。
+- 一个二进制数与0异或就是它本身，与1异或就是取反，将b与sub异或，并将sub连到进位上，这样就实现了通过sub来控制是否对b取反以及加1。
+
+```verilog
+module top_module(
+    input [31:0] a,
+    input [31:0] b,
+    input sub,
+    output [31:0] sum
+);
+    wire [31:0] subXorB;
+    wire add16FstCout;
+    assign subXorB = b^{32{sub}};
+    add16 add16Fst(.cin(sub),.a(a[15:0]),.b(subXorB[15:0]),.sum(sum[15:0]),.cout(add16FstCout));
+    add16 add16Sec(.cin(add16FstCout),.a(a[31:16]),.b(subXorB[31:16]),.sum(sum[31:16]));
+endmodule
+```
+
 
 
 ### Procedures
 
 Procedures include **always**, initial, task, and function blocks. Procedures allow sequential statements (which cannot be used outside of a procedure) to be used to describe the behaviour of a circuit.
 
-- [Always blocks (combinational)](https://hdlbits.01xz.net/wiki/alwaysblock1)
-- [Always blocks (clocked)](https://hdlbits.01xz.net/wiki/alwaysblock2)
-- [If statement](https://hdlbits.01xz.net/wiki/always_if)
-- [If statement latches](https://hdlbits.01xz.net/wiki/always_if2)
-- [Case statement](https://hdlbits.01xz.net/wiki/always_case)
-- [Priority encoder](https://hdlbits.01xz.net/wiki/always_case2)
-- [Priority encoder with casez](https://hdlbits.01xz.net/wiki/always_casez)
-- [Avoiding latches](https://hdlbits.01xz.net/wiki/always_nolatches)
+#### [Always blocks (combinational)](https://hdlbits.01xz.net/wiki/alwaysblock1)
+
+**对于组合always块，敏感列表总是使用(\*)。**因为明确地列出信号容易出错（比如漏掉一个），并且这类错误在硬件综合时会被忽略：如果你明确地列出了敏感列表但漏了一个信号，综合出来的硬件电路仍与使用(*)时一样。但在仿真时，仿真器会按漏了一个信号的情况跑仿真，这会导致仿真结果与原硬件不匹配。（在SystemVerilog中，使用always_comb。）
+
+```verilog
+module top_module(
+    input a, 
+    input b,
+    output wire out_assign,
+    output reg out_alwaysblock
+);
+    assign out_assign=a&b;
+    always@(*) out_alwaysblock=a&b;
+
+endmodule
+```
+
+虽然always等过程块提供了一种高效描述电路的方式，但是这种方式也有缺点。比如你用if-else和for循环嵌套写了一个复杂的电路，后面实际综合出来的电路结构可能会让你很惊(beng)讶(kui)。这就是用高级语法进行行为级描述的缺陷，它让你很难把控电路结构的细节，全靠EDA工具去综合，而assign和逻辑门等“低级”描述方式就能有效避免这个缺陷。另外，还有软硬件编程思维之类的差别就不细说了，总之对于初学者来说，要记住一点，for循环之类的要慎用（循环虽好，可不要贪杯噢🤭）。
+
+#### [Always blocks (clocked)](https://hdlbits.01xz.net/wiki/alwaysblock2)
+
+![image-20220916220247195](Verilog刷题.assets/image-20220916220247195.png)
+
+```verilog
+module Alwaysblock2(
+    input clk,
+    input a,
+    input b,
+    output wire out_assign,
+    output reg out_always_comb,
+    output reg out_always_ff ,
+	output reg out_always_ffNoZu 
+    );
+	
+	always@(posedge clk)
+		out_always_ff<=a^b;
+	always@(posedge clk)
+		out_always_ffNoZu=a^b;		
+	always@(*)
+		out_always_comb=a^b;
+	assign out_assign=a^b;
+
+endmodule
+```
+
+![image-20220916220937454](Verilog刷题.assets/image-20220916220937454.png)
+
+几种方式的比较，使用上升沿后，会引入寄存器。阻塞非阻塞都是一样的综合结果。
+
+#### [If statement](https://hdlbits.01xz.net/wiki/always_if)
+
+![image-20220917170111706](Verilog刷题.assets/image-20220917170111706.png)
+
+
+
+```verilog
+// synthesis verilog_input_version verilog_2001
+module top_module(
+    input a,
+    input b,
+    input sel_b1,
+    input sel_b2,
+    output wire out_assign,
+    output reg out_always   ); 
+    
+    assign out_assign=(sel_b1&sel_b2)? b:a;
+    always@(*)
+        begin
+        if (sel_b1&sel_b2) begin
+            out_always = b;
+        end
+        else begin
+            out_always=a;
+        end
+        end
+endmodule
+```
+
+#### [If statement latches](https://hdlbits.01xz.net/wiki/always_if2)
+
+```verilog
+module top_module (
+	input      cpu_overheated,
+	output reg shut_off_computer,
+	input      arrived,
+	input      gas_tank_empty,
+	output reg keep_driving
+);
+	always @(*) begin
+		if (cpu_overheated)
+			shut_off_computer = 1;
+		else
+			shut_off_computer = 0;
+	end
+
+	always @(*) begin
+		if (~arrived)
+			keep_driving = ~gas_tank_empty;
+		else
+			keep_driving = ~arrived;
+	end
+
+endmodule
+```
+
+#### [Case statement](https://hdlbits.01xz.net/wiki/always_case)
+
+写一个6-to-1的数据选择器，根据选择信号sel的值来选择相对应的数据输入，否则输出0。
+
+```verilog
+module top_module ( 
+    input [2:0] sel, 
+    input [3:0] data0,
+    input [3:0] data1,
+    input [3:0] data2,
+    input [3:0] data3,
+    input [3:0] data4,
+    input [3:0] data5,
+    output reg [3:0] out   );//
+
+    always@(*) begin  // This is a combinational circuit
+        case(sel)
+            3'b000:out=data0;
+            3'b001:out=data1;
+            3'b010:out=data2;
+            3'b011:out=data3;
+            3'b100:out=data4;
+            3'b101:out=data5;
+            default out=4'b0000;
+        endcase
+    end
+
+endmodule
+
+//case中换成下面的也是可以的
+            3'd0: out = data0;
+            3'd1: out = data1;
+            3'd2: out = data2;
+            3'd3: out = data3;
+            3'd4: out = data4;
+            3'd5: out = data5;
+```
+
+
+
+#### [Priority encoder](https://hdlbits.01xz.net/wiki/always_case2)
+
+优先编码器是一种组合电路，当给定一个输入位向量时，输出该向量从右往左数（从低位到高位）第一个1的位置。例如，输入8'b100**1**0000时，8位优先级编码器将输出3'd4，因为位[4]是从低到高第一个为1的位。（注：从右到左，最低的那位是第0位。）
+
+```verilog
+module top_module (
+	input [3:0] in,
+	output reg [1:0] pos
+);
+	always@(*) begin
+		case(in)	// 用十六进制可以少打一些字，用二进制更直观，各有优劣
+			4'b0000: pos = 2'b00;
+			4'b0001: pos = 2'b00;
+			4'b0010: pos = 2'b01;
+			4'b0011: pos = 2'b00;
+			4'b0100: pos = 2'b10;
+			4'b0101: pos = 2'b00;
+			4'b0110: pos = 2'b01;
+			4'b0111: pos = 2'b00;
+			4'b1000: pos = 2'b11;
+			4'b1001: pos = 2'b00;
+			4'b1010: pos = 2'b01;
+			4'b1011: pos = 2'b00;
+			4'b1100: pos = 2'b10;
+			4'b1101: pos = 2'b00;
+			4'b1110: pos = 2'b01;
+			4'b1111: pos = 2'b00;
+			default: pos = 2'b00;	// 这个例子中，16种情况都遍历了，此项可省略
+		endcase
+	end
+endmodule
+
+
+```
+
+
+
+#### [Priority encoder with casez](https://hdlbits.01xz.net/wiki/always_casez)
+
+如果按上一题的方式来写一个8位输入的优先编码器的话，case语句中将有256个case项。如果case语句中的case项与某些输入无关，就可以减少列出的case项（在本题中减少到9个）。这就是casez的用途：它在比较中将具有值z的位视为无关项。具体可参考下面对上一题的casez写法：
+
+```verilog
+module top_module (
+    input [7:0] in,
+    output reg [2:0] pos );
+    always@(*) begin
+        casez(in)
+            8'bzzzz_zzz1:pos=3'b000;
+            8'bzzzz_zz1z:pos=3'b001;
+            8'bzzzz_z1zz:pos=3'b010;
+            8'bzzzz_1zzz:pos=3'b011;
+            8'bzzz1_zzzz:pos=3'b100;
+            8'bzz1z_zzzz:pos=3'b101;
+            8'bz1zz_zzzz:pos=3'b110;
+            8'b1zzz_zzzz:pos=3'b111;
+            default pos=3'b000;
+        endcase
+    end
+endmodule
+```
+
+**casez是有优先级的**！比如在上面的例子中，4'b1111能匹配4'bzzz1、4'bzz1z、4'bz1zz、4'b1zzz四项中的任一项，但是为什么最终out输出0，因为4'bzzz1写在最前面（第一个case项），所以它的优先级最高，4'b1111按out=0输出。如果把四个case项改写成4'bzzz1、4'bzz10、4'bz100、4'b1000，那4'b1111只能匹配4'bzzz1，所以不管把4'bzzz1放第几个，4'b1111都会按4'bzzz1这一项的out=0来输出。
+
+#### [Avoiding latches](https://hdlbits.01xz.net/wiki/always_nolatches)
+
+为避免生成不必要的锁存器，必须在所有可能的情况下为所有的输出赋值（参见31.If statement latches）。这可能涉及许多不必要的输入，会多打很多字。 **一个简单的解决方法是在case语句之前为输出赋一个“默认值”**：
+
+```verilog
+always @(*) begin
+    up = 1'b0; down = 1'b0; left = 1'b0; right = 1'b0;
+    case (scancode)
+        ... // Set to 1 as necessary.
+    endcase
+end
+```
+
+```verilog
+module top_module (
+    input [15:0] scancode,
+    output reg left,
+    output reg down,
+    output reg right,
+    output reg up  );
+
+    always @(*) begin
+        left=1'b0; down=1'b0; right=1'b0; up=1'b0;
+        case(scancode)
+            16'he06b: left = 1'b1;
+            16'he072: down = 1'b1;
+            16'he074: right = 1'b1;
+            16'he075: up = 1'b1;
+        endcase
+    end
+
+endmodule
+```
+
+
 
 ### More Verilog Features
 
@@ -499,6 +754,30 @@ Procedures include **always**, initial, task, and function blocks. Procedures al
 - [Combinational for-loop: Vector reversal 2](https://hdlbits.01xz.net/wiki/vector100r)
 - [Combinational for-loop: 255-bit population count](https://hdlbits.01xz.net/wiki/popcount255)
 - [Generate for-loop: 100-bit binary adder 2](https://hdlbits.01xz.net/wiki/adder100i)
+
+```verilog
+module top_module( 
+    input [99:0] a, b,
+    input cin,
+    output [99:0] cout,
+    output [99:0] sum );
+	genvar i;
+    generate
+        for(i=0;i<100;i++) begin:adder //adder是循环生成语句的名
+            if(i==0)
+                assign{cout[0],sum[0]}=a[0]+b[0]+cin;
+            else
+                assign{cout[i],sum[i]}=a[i]+b[i]+cout[i-1];
+        end           
+    endgenerate
+endmodule
+
+```
+
+for循环，如果循环范围是常量，可综合。数组可综合。 但浮点类型不可综合。乘除法，特别是除法一般也不推荐使用，即使可综合，逻辑级数也是非常大的。 如果把上面的代码放在一拍之内完成，恐怕得到频率会非常低。
+
+https://bbs.eetop.cn/thread-597259-1-1.html
+
 - [Generate for-loop: 100-digit BCD adder](https://hdlbits.01xz.net/wiki/bcdadd100)
 
 ## Circuits
@@ -515,15 +794,180 @@ Procedures include **always**, initial, task, and function blocks. Procedures al
 - [More logic gates](https://hdlbits.01xz.net/wiki/gates)
 - [7420 chip](https://hdlbits.01xz.net/wiki/7420)
 - [Truth tables](https://hdlbits.01xz.net/wiki/truthtable1)
+
+![image-20220917210827234](Verilog刷题.assets/image-20220917210827234.png)
+
+真值表的写法之一，使用乘积或
+
+```verilog
+module top_module( 
+    input x3,
+    input x2,
+    input x1,  // three inputs
+    output f   // one output
+);
+    assign f= ((~x3)&x2&(~x1))|((~x3)&x2&x1)|(x3&(~x2)&x1)|(x3&x2&x1);
+endmodule
+```
+
 - [Two-bit equality](https://hdlbits.01xz.net/wiki/mt2015_eq2)
 - [Simple circuit A](https://hdlbits.01xz.net/wiki/mt2015_q4a)
 - [Simple circuit B](https://hdlbits.01xz.net/wiki/mt2015_q4b)
 - [Combine circuits A and B](https://hdlbits.01xz.net/wiki/mt2015_q4)
 - [Ring or vibrate?](https://hdlbits.01xz.net/wiki/ringer)
+
+设计一种电路来控制手机的铃声和振动马达。当有来电输入信号时(input ring)，电路必须打开铃声(output ringer= 1)或电机(output motor= 1)，但不能同时打开。如果手机处于振动模式(input vibrate_mode = 1)，打开电机。否则打开铃声。
+
+![image-20220917212820517](Verilog刷题.assets/image-20220917212820517.png)
+
+```verilog
+module top_module (
+    input ring,
+    input vibrate_mode,
+    output ringer,       // Make sound
+    output motor         // Vibrate
+);
+    assign ringer = (!vibrate_mode)&ring;
+    assign motor = (vibrate_mode)&ring;
+endmodule
+
+```
+
 - [Thermostat](https://hdlbits.01xz.net/wiki/thermostat)
 - [3-bit population count](https://hdlbits.01xz.net/wiki/popcount3)
+
+数一下输入变量中有几个一
+
+```verilog
+module Popcount3(
+    input [2:0] in,
+    output reg [1:0] out_for,
+	output [1:0] out_assign	
+    );
+	
+	assign out_assign=in[0]+in[1]+in[2];
+	
+	integer i;
+	always@(*) begin
+		out_for = 2'b0;
+		for(i=0;i<3;i=i+1) begin
+			out_for = 	out_for+in[i];
+		end
+	end
+endmodule
+```
+
+试了下，在这个代码中assign和for循环的RTL图是一致的。
+
+![image-20220917214402732](Verilog刷题.assets/image-20220917214402732.png)
+
 - [Gates and vectors](https://hdlbits.01xz.net/wiki/gatesv)
+
+```verilog
+//solution 1
+module top_module( 
+    input [3:0] in,
+    output [2:0] out_both,
+    output [3:1] out_any,
+    output [3:0] out_different );
+
+    assign out_both = {&in[3:2],&in[2:1],&in[1:0]};
+    assign out_any = {|in[3:2],|in[2:1],|in[1:0]};
+    assign out_different = {in[0]^in[3],^in[3:2],^in[2:1],^in[1:0]};
+    
+endmodule
+
+//solution 2
+module top_module (
+	input [3:0] in,
+	output [2:0] out_both,
+	output [3:1] out_any,
+	output [3:0] out_different
+);
+
+	// Use bitwise operators and part-select to do the entire calculation in one line of code
+	// in[3:1] is this vector:   					 in[3]  in[2]  in[1]
+	// in[2:0] is this vector:   					 in[2]  in[1]  in[0]
+	// Bitwise-OR produces a 3 bit vector.			   |      |      |
+	// Assign this 3-bit result to out_any[3:1]:	o_a[3] o_a[2] o_a[1]
+
+	// Thus, each output bit is the OR of the input bit and its neighbour to the right:
+	// e.g., out_any[1] = in[1] | in[0];	
+	// Notice how this works even for long vectors.
+	assign out_any = in[3:1] | in[2:0];
+
+	assign out_both = in[2:0] & in[3:1];
+	
+	// XOR 'in' with a vector that is 'in' rotated to the right by 1 position: {in[0], in[3:1]}
+	// The rotation is accomplished by using part selects[] and the concatenation operator{}.
+	assign out_different = in ^ {in[0], in[3:1]};
+	
+endmodule
+```
+
+或者for循环
+
+```verilog
+module Gatesv(
+    input [3:0] in,
+    output [2:0] out_both,
+    output [3:1] out_any,
+    output [3:0] out_different,
+	output reg [2:0] out_both_for,
+    output reg [3:1] out_any_for,
+    output reg [3:0] out_different_for
+    );
+	
+    //assign out_both={in[3]&in[2],in[2]&in[1],in[1]&in[0]}; //使用上面的代码规约和这个是不一样的，规约有专门的RTL集成。
+	//assign out_any={in[3]|in[2],in[2]|in[1],in[1]|in[0]};
+	//assign out_different={in[3]^in[0],in[2]^in[3],in[1]^in[2],in[0]^in[1]};
+	
+    
+	integer i;
+    always @(*) begin
+        for(i=0;i<3;i=i+1) begin
+            out_both_for[i] = in[i] & in[i+1];
+            out_any_for[i+1] = in[i+1] | in[i];
+            out_different_for[i] = in[i] ^ in[i+1];
+        end
+        out_different_for[3] = in[0] ^ in[3];
+    end
+    
+
+endmodule
+```
+
+综合出来是一样的
+
+![image-20220917220513210](Verilog刷题.assets/image-20220917220513210.png)
+
+
+
 - [Even longer vectors](https://hdlbits.01xz.net/wiki/gatesv100)
+
+当位数很多时，直接从1-99一个一个赋值就很慢了。
+
+但是也不是必须要用for，如下面的方式就是一种可选的替换方法。
+
+**规律：涉及到错位运算就要考虑到一次性多位错位赋值。**
+
+```verilog
+module top_module( 
+    input [99:0] in,
+    output [98:0] out_both,
+    output [99:1] out_any,
+    output [99:0] out_different );
+
+    assign out_any = in[99:1] | in[98:0];
+    assign out_both = in[98:0] & in[99:1];
+    assign out_different = in ^ {in[0], in[99:1]};
+    
+endmodule
+```
+
+![image-20220917224817564](Verilog刷题.assets/image-20220917224817564.png)
+
+
 
 #### Multiplexers
 
