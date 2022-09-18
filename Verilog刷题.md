@@ -974,16 +974,215 @@ endmodule
 - [2-to-1 multiplexer](https://hdlbits.01xz.net/wiki/mux2to1)
 - [2-to-1 bus multiplexer](https://hdlbits.01xz.net/wiki/mux2to1v)
 - [9-to-1 multiplexer](https://hdlbits.01xz.net/wiki/mux9to1v)
+
+Create a 16-bit wide, 9-to-1 multiplexer. sel=0 chooses a, sel=1 chooses b, etc. For the unused cases (sel=9 to 15), set all output bits to '1'.
+
+```verilog
+module Mux9to1v(
+    input [15:0] a, b, c, d, e, f, g, h, i,
+    input [3:0] sel,
+    output reg [15:0] out
+    );
+	
+	always@(*) begin
+		case(sel) 
+            4'd0: out = a;//用十进制，4个比特数不变
+            4'd1: out = b;
+            4'd2: out = c;
+            4'd3: out = d;
+            4'd4: out = e;
+            4'd5: out = f;
+            4'd6: out = g;
+            4'd7: out = h;
+            4'd8: out = i;
+			default:out=16'b1111_1111_1111_1111;
+		endcase
+	end
+	
+	
+	
+endmodule
+```
+
+![image-20220918145532952](Verilog刷题.assets/image-20220918145532952.png)
+
+
+
 - [256-to-1 multiplexer](https://hdlbits.01xz.net/wiki/mux256to1)
+
+Create a 1-bit wide, 256-to-1 multiplexer. The 256 inputs are all packed into a single 256-bit input vector. sel=0 should select `in[0]`, sel=1 selects bits `in[1]`, sel=2 selects bits `in[2]`, etc.
+
+```verilog
+module Mux256to1(
+    input [255:0] in,
+    input [7:0] sel,
+    output out
+    );
+	
+	assign out = in[sel];
+endmodule
+```
+
+![image-20220918150525116](Verilog刷题.assets/image-20220918150525116.png)
+
+for循环中使用变量综合会出问题，但是在其他语句中使用变量应该没问题？留个心眼
+
 - [256-to-1 4-bit multiplexer](https://hdlbits.01xz.net/wiki/mux256to1v)
+
+创建 4 位宽、256 比 1 多路复用器。256 个 4 位输入全部打包到单个 1024 位输入矢量中。sel=0 应该选择[3：0]中的位，sel=1 选择[7：4]中的位，sel=2 选择[11：8] 中的位
+
+大白话：四个四个取，0123，4567，891011这样子
+
+```verilog
+module top_module (
+	input [1023:0] in,
+	input [7:0] sel,
+	output [3:0] out
+);
+
+	assign out = {in[sel*4+3], in[sel*4+2], in[sel*4+1], in[sel*4+0]};//combine all bits
+
+endmodule
+```
+
+
 
 #### Arithmetic Circuits
 
 - [Half adder](https://hdlbits.01xz.net/wiki/hadd)
+
+半加器，可以用真值表写，也可以描述逻辑。
+
+注意连接运算符的使用。
+
+```verilog
+module Hadd(
+    input a, b,
+    output cout, sum
+    );
+	
+	assign {cout,sum}= a+b;
+endmodule
+
+//真值表
+module top_module( 
+    input a, b,
+    output cout, sum 
+);
+    assign cout = a & b;
+    assign sum = a ^ b;
+endmodule
+
+```
+
+使用逻辑描述的RTL电路如下图：
+
+![image-20220918152036079](Verilog刷题.assets/image-20220918152036079.png)
+
+
+
 - [Full adder](https://hdlbits.01xz.net/wiki/fadd)
+
+全加器
+
+```verilog
+module top_module( 
+    input a, b, cin,
+    output cout, sum );
+
+    assign {cout,sum} = a + b + cin;
+    
+endmodule
+
+//真值表
+module top_module( 
+    input a, b, cin,
+    output cout, sum 
+);
+    assign cout = ((~a)&b&cin) | ((~b)&a&cin)|((~cin)&b&a)|(a&b&cin);
+    assign sum = ((~a)&(~b)&cin)  | ((~a)&b&(~cin)) | ((~b)&a&(~cin))|(b&a&cin);
+
+endmodule
+
+```
+
+
+
 - [3-bit binary adder](https://hdlbits.01xz.net/wiki/adder3)
+
+Now that you know how to build a [full adder](https://hdlbits.01xz.net/wiki/Fadd), make 3 instances of it to create a 3-bit binary ripple-carry adder. The adder adds two 3-bit numbers and a carry-in to produce a 3-bit sum and carry out. To encourage you to actually instantiate full adders, also output the carry-out from *each* full adder in the ripple-carry adder. cout[2] is the final carry-out from the last full adder, and is the carry-out you usually see.
+
+行波进位加法器：每个全加器的输出进位cout作为下一个全加器的输入进位cin
+
+~~~verilog
+module Adder3(
+    input [2:0] a, b,
+    input cin,
+    output [2:0] cout,
+    output [2:0] sum
+    );
+	
+	assign {cout[0],sum[0]} = a[0] + b[0] +cin;
+    assign {cout[1],sum[1]} = a[1] + b[1] +cout[0];
+    assign {cout[2],sum[2]} = a[2] + b[2] +cout[1];
+endmodule
+
+
+//或者层次化
+```verilog
+module top_module( 
+    input [2:0] a, b,
+    input cin,
+    output [2:0] cout,
+    output [2:0] sum );
+
+    full_adder adder1(a[0],b[0],cin,cout[0],sum[0]);
+    full_adder adder2(a[1],b[1],cout[0],cout[1],sum[1]);
+    full_adder adder3(a[2],b[2],cout[1],cout[2],sum[2]);
+    
+endmodule
+
+//submodule
+module full_adder(
+    input a, b, cin,
+    output cout, sum );
+
+    assign {cout,sum} = a + b + cin;
+    
+endmodule
+```
+~~~
+
+![image-20220918153250010](Verilog刷题.assets/image-20220918153250010.png)
+
 - [Adder](https://hdlbits.01xz.net/wiki/exams/m2014_q4j)
 - [Signed addition overflow](https://hdlbits.01xz.net/wiki/exams/ece241_2014_q1c)
+
+假设您有两个 8 位 2 的补码数，a[7：0] 和 b[7：0]。这些数字相加以产生s[7：0]。还要计算是否发生了溢出。
+
+如何判断计算是否溢出：
+
+当两个正数相加产生一个负结果，或两个负数相加产生一个正结果时，会发生符号溢出现象。
+
+因此可以通过比较输入和输出数字的符号来计算溢出，如果输入和输出数字的符号相反，则溢出。
+
+总结：除了上面的分析，这题要是先画波形图就有思路处理溢出的情况了。
+
+```verilog
+module ece241_2014_q1c(
+    input [7:0] a,
+    input [7:0] b,
+    output [7:0] s,
+    output overflow
+    );
+
+	assign s=a+b;
+	assign overflow = (a[7]&b[7]&(~s[7])) | ((~a[7])&(~b[7])&(s[7]));
+endmodule
+```
+
+![image-20220918161704705](Verilog刷题.assets/image-20220918161704705.png)
+
 - [100-bit binary adder](https://hdlbits.01xz.net/wiki/adder100)
 - [4-digit BCD adder](https://hdlbits.01xz.net/wiki/bcdadd4)
 
@@ -991,11 +1190,86 @@ endmodule
 
 - [3-variable](https://hdlbits.01xz.net/wiki/kmap1)
 - [4-variable](https://hdlbits.01xz.net/wiki/kmap2)
+
+![image-20220918173813036](Verilog刷题.assets/image-20220918173813036.png)
+
+```verilog
+module top_module(
+    input a,
+    input b,
+    input c,
+    input d,
+    output out  ); 
+
+    // assign out = ~a&~d | ~b&~c | ~a&b&c | a&c&d ; // sum-of-products
+    assign out = (~a|~b|c) & (~b|c|~d) & (~a|~c|d) & (a|b|~c|~d); // product-of-sums
+    
+endmodule
+```
+
 - [4-variable](https://hdlbits.01xz.net/wiki/kmap3)
+
+![image-20220918173914172](Verilog刷题.assets/image-20220918173914172.png)
+
+d是无关项，可以是0也可以是1
+
+```verilog
+module top_module(
+    input a,
+    input b,
+    input c,
+    input d,
+    output out  ); 
+
+    assign out = a | ~b&c ; // sum-of-products
+    // assign out = (a|~b) & (a|c) ; //product-of-sums
+    
+endmodule
+```
+
+
+
 - [4-variable](https://hdlbits.01xz.net/wiki/kmap4)
 - [Minimum SOP and POS](https://hdlbits.01xz.net/wiki/exams/ece241_2013_q2)
+
+具有四个输入（a、b、c、d）的单输出数字系统在输入为2、7或15时输出1，在输入0、1、4、5、6、9、10、13或14时输出0。输入3、8、11和12为不可能的输入。例如，输入7则输出a、b、c、d对应为0,1,1,1的。
+
+![image-20220918175713000](Verilog刷题.assets/image-20220918175713000.png)
+
+对于不可能的输入，可以处理为d。遇到画过圈的包含d的1时，一定输出1；
+
+```verilog
+module top_module (
+    input a,
+    input b,
+    input c,
+    input d,
+    output out_sop,
+    output out_pos
+);
+    assign out_pos = (~a & ~b & c) | (b & c & d) | (a & c & d);
+	assign out_sop = c & (~a | d) & (~b | d);
+endmodule
+```
+
+![image-20220918175740245](Verilog刷题.assets/image-20220918175740245.png)
+
+
+
 - [Karnaugh map](https://hdlbits.01xz.net/wiki/exams/m2014_q3)
 - [Karnaugh map](https://hdlbits.01xz.net/wiki/exams/2012_q1g)
+
+![image-20220918185320579](Verilog刷题.assets/image-20220918185320579.png)
+
+```verilog
+module top_module (
+    input [4:1] x,
+    output f
+); 
+    assign f=(x[2]&x[3]&x[4])|((!x[2])&(!x[4]))|(x[3]&(!x[1]));
+endmodule
+```
+
 - [K-map implemented with a multiplexer](https://hdlbits.01xz.net/wiki/exams/ece241_2014_q3)
 
 ### Sequential Logic
@@ -1003,11 +1277,124 @@ endmodule
 #### Latches and Flip-Flops
 
 - [D flip-flop](https://hdlbits.01xz.net/wiki/dff)
+
+D触发器
+
+```verilog
+module Dff(
+    input clk,    // Clocks are used in sequential circuits
+    input d,
+    output reg q 
+    );
+	
+	always@(posedge clk) begin
+		q=d;
+	end
+	
+	
+endmodule
+```
+
+![image-20220918202153179](Verilog刷题.assets/image-20220918202153179.png)
+
 - [D flip-flops](https://hdlbits.01xz.net/wiki/dff8)
 - [DFF with reset](https://hdlbits.01xz.net/wiki/dff8r)
+
+有对应的resetD触发器的
+
+```verilog
+module Dff8r(
+    input clk,
+    input reset,            // Synchronous reset
+    input [7:0] d,
+    output reg [7:0] q
+    );
+	
+	always@(posedge clk) begin
+		if(reset) begin
+			q<=8'd0;
+		end
+		else begin
+			q<=d;
+		end
+		
+	end
+	
+endmodule
+
+```
+
+![image-20220918203051079](Verilog刷题.assets/image-20220918203051079.png)
+
 - [DFF with reset value](https://hdlbits.01xz.net/wiki/dff8p)
 - [DFF with asynchronous reset](https://hdlbits.01xz.net/wiki/dff8ar)
 - [DFF with byte enable](https://hdlbits.01xz.net/wiki/dff16e)
+
+创建一个16D触发器，其中字节使能信号byteena控制当前时钟周期中16个寄存器中哪个字节需被修改。byteena[1]控制高字节d[15:8]，而byteena[0]控制低字节d[7:0]。
+
+resetn是一个**同步，低复位**信号。
+
+所有的D触发器由clk的**上升沿触发**
+
+```verilog
+module top_module (
+    input clk,
+    input resetn,
+    input [1:0] byteena,
+    input [15:0] d,
+    output [15:0] q
+);
+	always@(posedge clk) begin
+		if(resetn==1'b0) begin
+			q<=16'd0;
+		end
+		else begin
+			if(byteena[0]==1'b1) begin
+				q[7:0]<=d[7:0];
+			end
+			else begin
+				q[7:0]<=q[7:0];
+			end
+			if(byteena[1]==1'b1) begin
+				q[15:8]<=d[15:8];
+			end
+			else begin
+                q[15:8]<=q[15:8];
+			end
+			
+		end
+		
+	end
+endmodule
+
+//或者省略else也可
+//组合逻辑中存在latch所以不能省略但是在时序逻辑中存在latch可能是功能所需的。
+module top_module (
+    input clk,
+    input resetn,
+    input [1:0] byteena,
+    input [15:0] d,
+    output [15:0] q
+);
+    always@(posedge clk)begin
+        if(~resetn)
+            q <= 16'd0;
+        else
+            begin
+            if(byteena[0])
+                q[7:0] <= d[7:0];
+        	if(byteena[1])
+            	q[15:8] <= d[15:8];
+            end
+    end
+
+endmodule
+```
+
+![image-20220918213547016](Verilog刷题.assets/image-20220918213547016.png)
+
+注意此处RTL图，画了4个，只表示是多个叠加并不表示用了4个。实际上要用16个。
+
 - [D Latch](https://hdlbits.01xz.net/wiki/exams/m2014_q4a)
 - [DFF](https://hdlbits.01xz.net/wiki/exams/m2014_q4b)
 - [DFF](https://hdlbits.01xz.net/wiki/exams/m2014_q4c)
@@ -1015,6 +1402,52 @@ endmodule
 - [Mux and DFF](https://hdlbits.01xz.net/wiki/mt2015_muxdff)
 - [Mux and DFF](https://hdlbits.01xz.net/wiki/exams/2014_q4a)
 - [DFFs and gates](https://hdlbits.01xz.net/wiki/exams/ece241_2014_q4)
+
+![image-20220918215359465](Verilog刷题.assets/image-20220918215359465.png)
+
+错误代码如下，实际上引入了二级延迟。
+
+```verilog
+module m2014_q4d(
+    input clk,
+    input in, 
+    output reg out
+    );
+	reg temp_XOr;  
+	always@(posedge clk) begin
+		temp_XOr<=in^out;
+		out<=temp_XOr;
+	end
+    //假设in^out分别为1，2，3，4，5，6
+    //假设 第一个上升沿到来时out=1，temp_XOr=2，in^out=3（always所有循环结束后完成赋值，此时temp_XOr=3.out=2）
+    //第二个上升沿到来时，out=2,temp_XOr=3,in^out=4
+    //第三个上升沿到来时，out=3,temp_XOr=4,in^out=5
+	//中间隔了两层。
+    //明天写个testbench看下
+endmodule
+
+```
+
+![image-20220918225142162](Verilog刷题.assets/image-20220918225142162.png)
+
+正确代码如下
+
+```verilog
+module m2014_q4d(
+    input clk,
+    input in, 
+    output reg out
+    );
+    always @(posedge clk) begin
+        out <= (in ^ out);
+    end
+endmodule
+```
+
+![image-20220918225340349](Verilog刷题.assets/image-20220918225340349.png)
+
+
+
 - [Create circuit from truth table](https://hdlbits.01xz.net/wiki/exams/ece241_2013_q7)
 - [Detect an edge](https://hdlbits.01xz.net/wiki/edgedetect)
 - [Detect both edges](https://hdlbits.01xz.net/wiki/edgedetect2)
