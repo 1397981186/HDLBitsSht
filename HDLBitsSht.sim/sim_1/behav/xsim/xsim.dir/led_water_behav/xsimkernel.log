@@ -1,0 +1,7 @@
+Running: xsim.dir/led_water_behav/xsimk.exe -simmode gui -wdb led_water_behav.wdb -simrunnum 0 -socket 55776
+Design successfully loaded
+Design Loading Memory Usage: 7248 KB (Peak: 7248 KB)
+Design Loading CPU Usage: 61 ms
+Simulation completed
+Simulation Memory Usage: 7864 KB (Peak: 7864 KB)
+Simulation CPU Usage: 77 ms

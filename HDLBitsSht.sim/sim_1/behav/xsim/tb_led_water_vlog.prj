@@ -1,0 +1,35 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"../../../../HDLBitsSht.srcs/sources_1/new/m2014_q4d.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/Popcount3.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/Wire_decl.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/Vectorr.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/Vectorgates.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/Vector3.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/Vector2.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/Vector1.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/Vector0.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/Gates4.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/Alwaysblock2.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/7458Chip.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/Gatesv.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/Gatesv100.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/Mux9to1v.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/Mux256to1.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/Hadd.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/Adder3.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/ece241_2014_q1c.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/Dff.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/Dff8r.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/Dff8ar.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/Dff16e.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/2014_q4a2.v" \
+"../../../../HDLBitsSht.srcs/sources_1/new/ece241_2013_q7.v" \
+"../../../../HDLBitsSht.srcs/sources_1/imports/Desktop/led_water.v" \
+"../../../../HDLBitsSht.srcs/sim_1/imports/Desktop/tb_led_water.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort
