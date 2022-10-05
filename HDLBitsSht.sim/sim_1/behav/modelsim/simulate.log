@@ -12,16 +12,17 @@
 # //  18 U.S.C. Section 1905.
 # //
 # do {tb_led_water_simulate.do}
-# vsim -voptargs=""+acc"" -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip -lib xil_defaultlib xil_defaultlib.tb_led_water xil_defaultlib.glbl 
-# Start time: 13:41:21 on Sep 20,2022
+# vsim -voptargs=""+acc"" -coverage -fsmdebug -L testFsm-Sht-20221004 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip -lib xil_defaultlib xil_defaultlib.tb_led_water xil_defaultlib.glbl 
+# Start time: 17:51:11 on Oct 04,2022
 # ** Note: (vsim-3812) Design is being optimized...
 # Loading work.tb_led_water(fast)
 # Loading work.led_water(fast)
 # Loading work.glbl(fast)
+# ** Warning: (vsim-8634) Code was not compiled with coverage options.
 # 1
 # 1
 # .main_pane.wave.interior.cs.body.pw.wf
 # .main_pane.structure.interior.cs.body.struct
 # .main_pane.objects.interior.cs.body.tree
-# End time: 13:42:15 on Sep 20,2022, Elapsed time: 0:00:54
-# Errors: 0, Warnings: 0
+# End time: 17:51:23 on Oct 04,2022, Elapsed time: 0:00:12
+# Errors: 0, Warnings: 1

@@ -9,17 +9,17 @@ z2
 cModel Technology
 Z0 dE:/FPGACode/HDLBitsSht/HDLBitsSht.sim/sim_1/behav/modelsim
 T_opt
-!s110 1663652481
-V41ISm@7zPQ>5XdP[AkhOL2
+!s110 1664871848
+V9N87m_3k;602@7Gb]b8Wh2
 04 12 4 work tb_led_water fast 0
 04 4 4 work glbl fast 0
-=1-40234318a675-63295281-16c-4c34
+=1-40234318a675-633beda8-1b8-4c14
 o-quiet -auto_acc_if_foreign -work xil_defaultlib -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip +acc
 Z1 tCvgOpt 0
 n@_opt
 OL;O;10.7;67
 vAdder3
-Z2 !s110 1663652472
+Z2 !s110 1664871839
 !i10b 1
 !s100 P16Ud=NGA965JNF1=Xl8Q0
 IUVf^AHbY8Yj3jEcXY<V:U1
@@ -33,9 +33,9 @@ Z5 OL;L;10.7;67
 r1
 !s85 0
 31
-Z6 !s108 1663652472.000000
-Z7 !s107 ../../../../HDLBitsSht.srcs/sim_1/imports/Desktop/tb_led_water.v|../../../../HDLBitsSht.srcs/sources_1/imports/Desktop/led_water.v|../../../../HDLBitsSht.srcs/sources_1/new/ece241_2013_q7.v|../../../../HDLBitsSht.srcs/sources_1/new/2014_q4a2.v|../../../../HDLBitsSht.srcs/sources_1/new/Dff16e.v|../../../../HDLBitsSht.srcs/sources_1/new/Dff8ar.v|../../../../HDLBitsSht.srcs/sources_1/new/Dff8r.v|../../../../HDLBitsSht.srcs/sources_1/new/Dff.v|../../../../HDLBitsSht.srcs/sources_1/new/ece241_2014_q1c.v|../../../../HDLBitsSht.srcs/sources_1/new/Adder3.v|../../../../HDLBitsSht.srcs/sources_1/new/Hadd.v|../../../../HDLBitsSht.srcs/sources_1/new/Mux256to1.v|../../../../HDLBitsSht.srcs/sources_1/new/Mux9to1v.v|../../../../HDLBitsSht.srcs/sources_1/new/Gatesv100.v|../../../../HDLBitsSht.srcs/sources_1/new/Gatesv.v|../../../../HDLBitsSht.srcs/sources_1/new/7458Chip.v|../../../../HDLBitsSht.srcs/sources_1/new/Alwaysblock2.v|../../../../HDLBitsSht.srcs/sources_1/new/Gates4.v|../../../../HDLBitsSht.srcs/sources_1/new/Vector0.v|../../../../HDLBitsSht.srcs/sources_1/new/Vector1.v|../../../../HDLBitsSht.srcs/sources_1/new/Vector2.v|../../../../HDLBitsSht.srcs/sources_1/new/Vector3.v|../../../../HDLBitsSht.srcs/sources_1/new/Vectorgates.v|../../../../HDLBitsSht.srcs/sources_1/new/Vectorr.v|../../../../HDLBitsSht.srcs/sources_1/new/Wire_decl.v|../../../../HDLBitsSht.srcs/sources_1/new/Popcount3.v|../../../../HDLBitsSht.srcs/sources_1/new/m2014_q4d.v|
-Z8 !s90 -64|-incr|-work|xil_defaultlib|../../../../HDLBitsSht.srcs/sources_1/new/m2014_q4d.v|../../../../HDLBitsSht.srcs/sources_1/new/Popcount3.v|../../../../HDLBitsSht.srcs/sources_1/new/Wire_decl.v|../../../../HDLBitsSht.srcs/sources_1/new/Vectorr.v|../../../../HDLBitsSht.srcs/sources_1/new/Vectorgates.v|../../../../HDLBitsSht.srcs/sources_1/new/Vector3.v|../../../../HDLBitsSht.srcs/sources_1/new/Vector2.v|../../../../HDLBitsSht.srcs/sources_1/new/Vector1.v|../../../../HDLBitsSht.srcs/sources_1/new/Vector0.v|../../../../HDLBitsSht.srcs/sources_1/new/Gates4.v|../../../../HDLBitsSht.srcs/sources_1/new/Alwaysblock2.v|../../../../HDLBitsSht.srcs/sources_1/new/7458Chip.v|../../../../HDLBitsSht.srcs/sources_1/new/Gatesv.v|../../../../HDLBitsSht.srcs/sources_1/new/Gatesv100.v|../../../../HDLBitsSht.srcs/sources_1/new/Mux9to1v.v|../../../../HDLBitsSht.srcs/sources_1/new/Mux256to1.v|../../../../HDLBitsSht.srcs/sources_1/new/Hadd.v|../../../../HDLBitsSht.srcs/sources_1/new/Adder3.v|../../../../HDLBitsSht.srcs/sources_1/new/ece241_2014_q1c.v|../../../../HDLBitsSht.srcs/sources_1/new/Dff.v|../../../../HDLBitsSht.srcs/sources_1/new/Dff8r.v|../../../../HDLBitsSht.srcs/sources_1/new/Dff8ar.v|../../../../HDLBitsSht.srcs/sources_1/new/Dff16e.v|../../../../HDLBitsSht.srcs/sources_1/new/2014_q4a2.v|../../../../HDLBitsSht.srcs/sources_1/new/ece241_2013_q7.v|../../../../HDLBitsSht.srcs/sources_1/imports/Desktop/led_water.v|../../../../HDLBitsSht.srcs/sim_1/imports/Desktop/tb_led_water.v|
+Z6 !s108 1664871839.000000
+Z7 !s107 ../../../../HDLBitsSht.srcs/sim_1/imports/Desktop/tb_led_water.v|../../../../HDLBitsSht.srcs/sources_1/new/Fsm1.v|../../../../HDLBitsSht.srcs/sources_1/new/Shift18.v|../../../../HDLBitsSht.srcs/sources_1/new/Shift4.v|../../../../HDLBitsSht.srcs/sources_1/new/Count_clock.v|../../../../HDLBitsSht.srcs/sources_1/new/Edgedetect2.v|../../../../HDLBitsSht.srcs/sources_1/imports/Desktop/led_water.v|../../../../HDLBitsSht.srcs/sources_1/new/ece241_2013_q7.v|../../../../HDLBitsSht.srcs/sources_1/new/2014_q4a2.v|../../../../HDLBitsSht.srcs/sources_1/new/Dff16e.v|../../../../HDLBitsSht.srcs/sources_1/new/Dff8ar.v|../../../../HDLBitsSht.srcs/sources_1/new/Dff8r.v|../../../../HDLBitsSht.srcs/sources_1/new/Dff.v|../../../../HDLBitsSht.srcs/sources_1/new/ece241_2014_q1c.v|../../../../HDLBitsSht.srcs/sources_1/new/Adder3.v|../../../../HDLBitsSht.srcs/sources_1/new/Hadd.v|../../../../HDLBitsSht.srcs/sources_1/new/Mux256to1.v|../../../../HDLBitsSht.srcs/sources_1/new/Mux9to1v.v|../../../../HDLBitsSht.srcs/sources_1/new/Gatesv100.v|../../../../HDLBitsSht.srcs/sources_1/new/Gatesv.v|../../../../HDLBitsSht.srcs/sources_1/new/7458Chip.v|../../../../HDLBitsSht.srcs/sources_1/new/Alwaysblock2.v|../../../../HDLBitsSht.srcs/sources_1/new/Gates4.v|../../../../HDLBitsSht.srcs/sources_1/new/Vector0.v|../../../../HDLBitsSht.srcs/sources_1/new/Vector1.v|../../../../HDLBitsSht.srcs/sources_1/new/Vector2.v|../../../../HDLBitsSht.srcs/sources_1/new/Vector3.v|../../../../HDLBitsSht.srcs/sources_1/new/Vectorgates.v|../../../../HDLBitsSht.srcs/sources_1/new/Vectorr.v|../../../../HDLBitsSht.srcs/sources_1/new/Wire_decl.v|../../../../HDLBitsSht.srcs/sources_1/new/Popcount3.v|../../../../HDLBitsSht.srcs/sources_1/new/m2014_q4d.v|
+Z8 !s90 -64|-incr|-work|xil_defaultlib|../../../../HDLBitsSht.srcs/sources_1/new/m2014_q4d.v|../../../../HDLBitsSht.srcs/sources_1/new/Popcount3.v|../../../../HDLBitsSht.srcs/sources_1/new/Wire_decl.v|../../../../HDLBitsSht.srcs/sources_1/new/Vectorr.v|../../../../HDLBitsSht.srcs/sources_1/new/Vectorgates.v|../../../../HDLBitsSht.srcs/sources_1/new/Vector3.v|../../../../HDLBitsSht.srcs/sources_1/new/Vector2.v|../../../../HDLBitsSht.srcs/sources_1/new/Vector1.v|../../../../HDLBitsSht.srcs/sources_1/new/Vector0.v|../../../../HDLBitsSht.srcs/sources_1/new/Gates4.v|../../../../HDLBitsSht.srcs/sources_1/new/Alwaysblock2.v|../../../../HDLBitsSht.srcs/sources_1/new/7458Chip.v|../../../../HDLBitsSht.srcs/sources_1/new/Gatesv.v|../../../../HDLBitsSht.srcs/sources_1/new/Gatesv100.v|../../../../HDLBitsSht.srcs/sources_1/new/Mux9to1v.v|../../../../HDLBitsSht.srcs/sources_1/new/Mux256to1.v|../../../../HDLBitsSht.srcs/sources_1/new/Hadd.v|../../../../HDLBitsSht.srcs/sources_1/new/Adder3.v|../../../../HDLBitsSht.srcs/sources_1/new/ece241_2014_q1c.v|../../../../HDLBitsSht.srcs/sources_1/new/Dff.v|../../../../HDLBitsSht.srcs/sources_1/new/Dff8r.v|../../../../HDLBitsSht.srcs/sources_1/new/Dff8ar.v|../../../../HDLBitsSht.srcs/sources_1/new/Dff16e.v|../../../../HDLBitsSht.srcs/sources_1/new/2014_q4a2.v|../../../../HDLBitsSht.srcs/sources_1/new/ece241_2013_q7.v|../../../../HDLBitsSht.srcs/sources_1/imports/Desktop/led_water.v|../../../../HDLBitsSht.srcs/sources_1/new/Edgedetect2.v|../../../../HDLBitsSht.srcs/sources_1/new/Count_clock.v|../../../../HDLBitsSht.srcs/sources_1/new/Shift4.v|../../../../HDLBitsSht.srcs/sources_1/new/Shift18.v|../../../../HDLBitsSht.srcs/sources_1/new/Fsm1.v|../../../../HDLBitsSht.srcs/sim_1/imports/Desktop/tb_led_water.v|
 !i113 0
 Z9 o-work xil_defaultlib -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
 R1
@@ -84,6 +84,28 @@ R8
 R9
 R1
 n@chip7458
+vCount_clock
+R2
+!i10b 1
+!s100 _1P9N2OPceTgg77IR84XK3
+IWAJ@M5A[GcoXfB`zmjXZz3
+R3
+R0
+w1664113706
+8../../../../HDLBitsSht.srcs/sources_1/new/Count_clock.v
+F../../../../HDLBitsSht.srcs/sources_1/new/Count_clock.v
+R4
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 0
+R9
+R1
+n@count_clock
 vDff
 R2
 !i10b 1
@@ -214,6 +236,50 @@ R8
 !i113 0
 R9
 R1
+vEdgedetect2
+R2
+!i10b 1
+!s100 EA_nQIfhXz2gS8mj@C;<H3
+Ibj]4Z@b5jbANB?68V:DoJ1
+R3
+R0
+w1664095431
+8../../../../HDLBitsSht.srcs/sources_1/new/Edgedetect2.v
+F../../../../HDLBitsSht.srcs/sources_1/new/Edgedetect2.v
+R4
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 0
+R9
+R1
+n@edgedetect2
+vFsm1
+R2
+!i10b 1
+!s100 88SfX7ZKMcDC=B<<AjNPj2
+I]87O@E5RKoMlaknNi4<nj3
+R3
+R0
+w1664871826
+8../../../../HDLBitsSht.srcs/sources_1/new/Fsm1.v
+F../../../../HDLBitsSht.srcs/sources_1/new/Fsm1.v
+R4
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 0
+R9
+R1
+n@fsm1
 vGates4
 R2
 !i10b 1
@@ -310,112 +376,4 @@ R3
 R0
 w1663485529
 8../../../../HDLBitsSht.srcs/sources_1/new/Hadd.v
-F../../../../HDLBitsSht.srcs/sources_1/new/Hadd.v
-R4
-R5
-r1
-!s85 0
-31
-R6
-R7
-R8
-!i113 0
-R9
-R1
-n@hadd
-vled_water
-R2
-!i10b 1
-!s100 KIX<Z:n7h8Xn8Ei=3bZO92
-InIVO@GUYF:4X5E2O=zm=o2
-R3
-R0
-w1663652398
-8../../../../HDLBitsSht.srcs/sources_1/imports/Desktop/led_water.v
-F../../../../HDLBitsSht.srcs/sources_1/imports/Desktop/led_water.v
-L0 21
-R5
-r1
-!s85 0
-31
-R6
-R7
-R8
-!i113 0
-R9
-R1
-vm2014_q4a2
-R2
-!i10b 1
-!s100 g[ec8lm0Mi6b58X202PFh1
-IHlI9Wf_IUcbGTo<0XReSK3
-R3
-R0
-w1663598069
-8../../../../HDLBitsSht.srcs/sources_1/new/2014_q4a2.v
-F../../../../HDLBitsSht.srcs/sources_1/new/2014_q4a2.v
-R4
-R5
-r1
-!s85 0
-31
-R6
-R7
-R8
-!i113 0
-R9
-R1
-vm2014_q4d
-R2
-!i10b 1
-!s100 EMSabFWkU`^7;R;SK>I]32
-ITHOMkm:l3D;IIMH[Gb]=61
-R3
-R0
-w1663512758
-8../../../../HDLBitsSht.srcs/sources_1/new/m2014_q4d.v
-F../../../../HDLBitsSht.srcs/sources_1/new/m2014_q4d.v
-R4
-R5
-r1
-!s85 0
-31
-R6
-R7
-R8
-!i113 0
-R9
-R1
-vMux256to1
-R2
-!i10b 1
-!s100 ZO?Pbz_RAlO@jmzcb0L8`1
-IzJz?JU1Xf<I1lW_P4kSFZ1
-R3
-R0
-w1663484509
-8../../../../HDLBitsSht.srcs/sources_1/new/Mux256to1.v
-F../../../../HDLBitsSht.srcs/sources_1/new/Mux256to1.v
-R4
-R5
-r1
-!s85 0
-31
-R6
-R7
-R8
-!i113 0
-R9
-R1
-n@mux256to1
-vMux9to1v
-R2
-!i10b 1
-!s100 nOOUlNcT@ciQZ]edij;QG2
-I2Q3n6L1<QMI?Wh;1?6d1e2
-R3
-R0
-w1663483997
-8../../../../HDLBitsSht.srcs/sources_1/new/Mux9to1v.v
-F../../../../HDLBitsSht.srcs/sources_1/new/Mux9to1v.v
-R4
+F../../../../HDLBitsSht.sr
